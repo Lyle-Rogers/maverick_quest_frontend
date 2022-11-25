@@ -1,7 +1,7 @@
-import React from "react";
-import "./styles/App.scss";
+import React from 'react';
+import './styles/App.scss';
 
-import Navigator from "./components/Navigator";
+import Navigator from './components/Navigator';
 
 const App = () => {
   return (

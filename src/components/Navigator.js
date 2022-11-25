@@ -1,9 +1,9 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from 'react';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
-import Home from "../screens/Home";
-import Login from "../screens/Login";
-import Register from "../screens/Register";
+import Home from '../screens/Home';
+import Login from '../screens/Login';
+import Register from '../screens/Register';
 
 const Navigator = () => {
   return (
