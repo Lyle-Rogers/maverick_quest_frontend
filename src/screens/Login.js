@@ -2,11 +2,16 @@
 // localStorage.setItem('auth_token', false);
 // localStorage.clear();
 
-import React from 'react';
+import React, { useContext } from 'react';
 import '../styles/Login.scss';
+import { UserContext } from '../App';
 
-const Login = () => {
-  return <div className='loginContainer'>Login</div>;
-};
+export default function Login() {
+  const [user, setUser] = useContext(UserContext);
 
-export default Login;
+  return (
+    <div className='loginContainer'>
+      <div>Login</div>
+    </div>
+  );
+}

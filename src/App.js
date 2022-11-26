@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import axios from 'axios';
 import './styles/App.scss';
 
@@ -6,10 +6,12 @@ import Loading from './screens/Loading';
 import AuthNavigator from './components/AuthNavigator';
 import Navigator from './components/Navigator';
 
+export const UserContext = createContext(null);
+
 const App = () => {
   const [user, setUser] = useState({
-    id: JSON.stringify(localStorage.getItem('user_id')),
-    auth_token: JSON.stringify(localStorage.getItem('auth_token')),
+    id: localStorage.getItem('user_id'),
+    auth_token: localStorage.getItem('auth_token'),
     first_page: 'loading',
   });
 
@@ -38,15 +40,17 @@ const App = () => {
   }, []);
 
   return (
-    <div className='App'>
-      {user.first_page == 'loading' ? (
-        <Loading />
-      ) : user.first_page == 'login' ? (
-        <AuthNavigator />
-      ) : user.first_page == 'home' ? (
-        <Navigator />
-      ) : null}
-    </div>
+    <UserContext.Provider value={[user, setUser]}>
+      <div className='App'>
+        {user.first_page == 'loading' ? (
+          <Loading />
+        ) : user.first_page == 'login' ? (
+          <AuthNavigator />
+        ) : user.first_page == 'home' ? (
+          <Navigator />
+        ) : null}
+      </div>
+    </UserContext.Provider>
   );
 };
 

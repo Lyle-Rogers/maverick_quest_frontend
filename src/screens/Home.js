@@ -1,7 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+// import { Link } from 'react-router-dom';
 import '../styles/Home.scss';
 
+import { UserContext } from '../App';
+
 export default function Home() {
-  return <div className="homeContainer">Home Page</div>;
+  const [user, setUser] = useContext(UserContext);
+
+  return <div className='homeContainer'>Home screen {user?.id}</div>;
 }
