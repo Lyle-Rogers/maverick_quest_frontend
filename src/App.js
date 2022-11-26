@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles/App.scss';
 
+import Loading from './screens/Loading';
+import AuthNavigator from './components/AuthNavigator';
 import Navigator from './components/Navigator';
 
 const App = () => {
@@ -27,7 +29,8 @@ const App = () => {
         } else {
           setUser({ ...user, first_page: 'home' });
         }
-      });
+      })
+      .catch(err => console.error(err));
   }
 
   useEffect(() => {
@@ -37,9 +40,9 @@ const App = () => {
   return (
     <div className='App'>
       {user.first_page == 'loading' ? (
-        <div>Loading</div>
+        <Loading />
       ) : user.first_page == 'login' ? (
-        <div>Login</div>
+        <AuthNavigator />
       ) : user.first_page == 'home' ? (
         <Navigator />
       ) : null}

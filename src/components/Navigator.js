@@ -1,17 +1,14 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import Home from '../screens/Home';
-import Login from '../screens/Login';
-import Register from '../screens/Register';
 
 const Navigator = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/Login' element={<Login />} />
-        <Route path='/Register' element={<Register />} />
+        <Route path='/' element={<Navigate to='home' />} />
+        <Route exact path='/home' element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

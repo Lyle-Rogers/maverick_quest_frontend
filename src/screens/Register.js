@@ -1,6 +1,8 @@
 import React from 'react';
 import '../styles/Register.scss';
 
-export default function Register() {
-  return <div className="registerContainer">Register</div>;
-}
+const Register = () => {
+  return <div className='registerContainer'>Register</div>;
+};
+
+export default Register;
