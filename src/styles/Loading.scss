@@ -1,0 +1,25 @@
+// #292E4A
+.loadingContainer {
+  // background-color: rgb(33, 128, 33);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+
+  .title {
+    font-size: 39px;
+    color: #000000;
+    font-weight: 700;
+  }
+
+  .loaderError {
+    position: absolute;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    bottom: 9px;
+  }
+}
