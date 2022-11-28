@@ -42,14 +42,13 @@ const App = () => {
   return (
     <UserContext.Provider value={[user, setUser]}>
       <div className='App'>
-        {/* {user.first_page == 'loading' ? (
+        {user.first_page == 'loading' ? (
           <Loading />
         ) : user.first_page == 'login' ? (
           <AuthNavigator />
         ) : user.first_page == 'home' ? (
           <Navigator />
-        ) : null} */}
-        <Loading />
+        ) : null}
       </div>
     </UserContext.Provider>
   );
