@@ -6,7 +6,8 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import '../styles/Login.scss';
 import { UserContext } from '../App';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function Login() {
   const [user, setUser] = useContext(UserContext);
@@ -16,7 +17,7 @@ export default function Login() {
     'An error that happened I think!',
   );
   const [passwordError, setPasswordError] = useState(
-    'An error that happened I think! r that happened I think!',
+    'An error that happened ed I think!',
   );
   const [passwordShown, setPasswordShown] = useState(false);
 
@@ -39,6 +40,7 @@ export default function Login() {
           className='username'
           value={username}
           placeholder='Username'
+          maxLength={71}
           onChange={e => setUsername(e.target.value)}
         />
         {usernameError ? (
@@ -47,13 +49,25 @@ export default function Login() {
       </div>
       <div className='passwordContainer'>
         <div className='passwordTitle'>password</div>
-        <input
-          type='text'
-          className='password'
-          value={password}
-          placeholder='Password'
-          onChange={e => setPassword(e.target.value)}
-        />
+        <div className='passwordInput'>
+          <input
+            type={passwordShown ? 'text' : 'password'}
+            className='password'
+            value={password}
+            placeholder='Password'
+            maxLength={61}
+            onChange={e => setPassword(e.target.value)}
+          />
+          <div
+            className='passwordEye'
+            onClick={() => setPasswordShown(!passwordShown)}>
+            {passwordShown ? (
+              <FontAwesomeIcon icon='eye' />
+            ) : (
+              <FontAwesomeIcon icon='eye-slash' />
+            )}
+          </div>
+        </div>
         {passwordError ? (
           <div className='passwordError'>{passwordError}</div>
         ) : null}

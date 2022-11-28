@@ -1,6 +1,8 @@
 import React, { useState, useEffect, createContext } from 'react';
 import axios from 'axios';
 import './styles/App.scss';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 import Loading from './screens/Loading';
 import AuthNavigator from './components/AuthNavigator';
@@ -37,6 +39,7 @@ const App = () => {
 
   useEffect(() => {
     automaticAuth();
+    library.add(faEyeSlash, faEye);
   }, []);
 
   return (

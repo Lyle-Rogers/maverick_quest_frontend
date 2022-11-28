@@ -1,4 +1,131 @@
-.signUpBtn {
-  text-decoration: none;
-  color: black;
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  .title {
+    font-size: 39px;
+    color: #000000;
+    font-weight: 700;
+    margin-top: 26px;
+  }
+
+  .usernameContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 11px;
+    margin-bottom: 2px;
+
+    .usernameTitle {
+      background-color: #292e4a;
+      height: 29px;
+      width: 109px;
+      color: white;
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: -1px;
+      padding-left: 6px;
+      border-radius: 7px 7px 0px 0px;
+    }
+
+    .username {
+      height: 1.7em;
+      width: 81vw;
+      font-size: 13.3px;
+      font-weight: 800;
+      border: 5px solid #292e4a;
+      border-radius: 0px 7px 7px 7px;
+      outline: none;
+    }
+
+    .username::placeholder {
+      font-size: 16px;
+      font-weight: bold;
+      color: black;
+    }
+
+    .usernameError {
+      width: 81vw;
+      font-size: 17px;
+      font-weight: 600;
+    }
+  }
+
+  .passwordContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 11px;
+
+    .passwordTitle {
+      background-color: #292e4a;
+      height: 29px;
+      width: 109px;
+      color: white;
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: -1px;
+      padding-left: 6px;
+      border-radius: 7px 7px 0px 0px;
+    }
+
+    .passwordInput {
+      position: relative;
+      display: flex;
+
+      .password {
+        height: 1.7em;
+        width: 81vw;
+        font-size: 13.3px;
+        font-weight: 800;
+        border: 5px solid #292e4a;
+        border-radius: 0px 7px 7px 7px;
+        outline: none;
+      }
+
+      .password::placeholder {
+        font-size: 16px;
+        font-weight: bold;
+        color: black;
+      }
+
+      .passwordEye {
+        position: absolute;
+        font-size: 21px;
+        color: #292e4a;
+        right: 11px;
+        top: 2px;
+      }
+    }
+
+    .passwordError {
+      width: 81vw;
+      font-size: 17px;
+      font-weight: 600;
+    }
+  }
+
+  .authenticationBtns {
+    display: flex;
+    justify-content: space-around;
+    width: 81vw;
+    margin-top: 9px;
+
+    .signUpBtn {
+      font-size: 22px;
+      font-weight: 700;
+      color: black;
+      text-decoration: none;
+    }
+
+    .loginBtn {
+      font-size: 22px;
+      font-weight: 700;
+      color: black;
+      text-decoration: none;
+    }
+  }
 }
