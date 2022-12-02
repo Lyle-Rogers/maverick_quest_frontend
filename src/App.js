@@ -1,26 +1,29 @@
-import React, { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './styles/App.scss';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
-import Loading from './screens/Loading';
-import AuthNavigator from './components/AuthNavigator';
-import Navigator from './components/Navigator';
+import Login from './screens/Login';
+import Register from './screens/Register';
+import Home from './screens/Home';
 
 export const UserContext = createContext(null);
+
+import { RequireAuth } from './components/RequireAuth';
 
 const App = () => {
   const [user, setUser] = useState({
     id: localStorage.getItem('user_id'),
     auth_token: localStorage.getItem('auth_token'),
-    first_page: 'loading',
+    logged_in: false,
   });
+  const navigate = useNavigate();
 
   function automaticAuth() {
     if (!user.id || !user.auth_token) {
-      setUser({ ...user, first_page: 'login' });
-      return;
+      navigate('login');
     }
 
     axios
@@ -28,10 +31,11 @@ const App = () => {
         auth_token: user.auth_token,
       })
       .then(res => {
-        if (res.data == 'Token is invalid') {
-          setUser({ ...user, first_page: 'login' });
+        if (res.data === 'Token is invalid') {
+          navigate('login');
         } else {
-          setUser({ ...user, first_page: 'home' });
+          setUser({ ...user, logged_in: true });
+          navigate('/');
         }
       })
       .catch(err => console.error(err));
@@ -43,16 +47,20 @@ const App = () => {
   }, []);
 
   return (
-    <UserContext.Provider value={[user, setUser]}>
-      <div className='App'>
-        {user.first_page == 'loading' ? (
-          <Loading />
-        ) : user.first_page == 'login' ? (
-          <AuthNavigator />
-        ) : user.first_page == 'home' ? (
-          <Navigator />
-        ) : null}
-      </div>
+    <UserContext.Provider value={{ user, setUser }}>
+      <Routes>
+        <Route
+          exact
+          path='/'
+          element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>
+          }
+        />
+        <Route exact path='/login' element={<Login />} />
+        <Route exact path='/register' element={<Register />} />
+      </Routes>
     </UserContext.Provider>
   );
 };

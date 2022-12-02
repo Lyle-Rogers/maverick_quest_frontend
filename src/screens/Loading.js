@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/Loading.scss';
 import Lottie from 'react-lottie';
 import LoaderCircle from '../assets/lotties/LoaderCircle.json';

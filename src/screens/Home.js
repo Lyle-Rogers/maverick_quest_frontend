@@ -1,11 +1,15 @@
-import React, { useContext } from 'react';
-// import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 import '../styles/Home.scss';
 
 import { UserContext } from '../App';
 
 export default function Home() {
-  const [user, setUser] = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-  return <div className='homeContainer'>Home screen {user?.id}</div>;
+  return (
+    <div className='homeContainer' onClick={localStorage.clear()}>
+      Home screen
+      {user?.id}
+    </div>
+  );
 }

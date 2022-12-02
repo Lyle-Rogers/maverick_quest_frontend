@@ -1,28 +1,55 @@
-// localStorage.setItem('user_id', false);
-// localStorage.setItem('auth_token', false);
-// localStorage.clear();
-
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import '../styles/Login.scss';
-import { UserContext } from '../App';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { UserContext } from '../App';
+
 export default function Login() {
-  const [user, setUser] = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const [usernameError, setUsernameError] = useState(
-    'An error that happened I think!',
-  );
-  const [passwordError, setPasswordError] = useState(
-    'An error that happened ed I think!',
-  );
+  const [usernameError, setUsernameError] = useState();
+  const [passwordError, setPasswordError] = useState();
   const [passwordShown, setPasswordShown] = useState(false);
+  const navigate = useNavigate();
 
   function login() {
     eraseErrors();
+
+    if (!username || !password) {
+      setUsernameError('A field is blank');
+      setPasswordError('A field is blank');
+      return;
+    }
+
+    axios
+      .post('http://127.0.0.1:8000/api/login', {
+        username: username,
+        password: password,
+      })
+      .then(res => {
+        if (res.data.user_id) {
+          localStorage.setItem('user_id', res.data.user_id);
+          localStorage.setItem('auth_token', res.data.auth_token);
+
+          setUser({
+            id: res.data.user_id,
+            auth_token: res.data.auth_token,
+            logged_in: true,
+          });
+
+          navigate('/');
+        } else if (res.data === 'Invalid username') {
+          setUsernameError('The username is invalid');
+        } else if (res.data === 'Invalid password') {
+          setPasswordError('The password is invalid');
+        }
+      })
+      .catch(e => {
+        console.error(e);
+      });
   }
 
   function eraseErrors() {
@@ -34,7 +61,11 @@ export default function Login() {
     <div className='loginContainer'>
       <div className='title'>Maverick Quest</div>
       <div className='usernameContainer'>
-        <div className='usernameTitle'>username</div>
+        <div
+          className='usernameTitle'
+          style={{ display: username ? null : 'none' }}>
+          username
+        </div>
         <input
           type='text'
           className='username'
@@ -48,7 +79,11 @@ export default function Login() {
         ) : null}
       </div>
       <div className='passwordContainer'>
-        <div className='passwordTitle'>password</div>
+        <div
+          className='passwordTitle'
+          style={{ display: password ? null : 'none' }}>
+          password
+        </div>
         <div className='passwordInput'>
           <input
             type={passwordShown ? 'text' : 'password'}
@@ -76,7 +111,7 @@ export default function Login() {
         <Link to={'/register'} className='signUpBtn'>
           Sign up
         </Link>
-        <div className='loginBtn' onClick={eraseErrors}>
+        <div className='loginBtn' onClick={login}>
           Login
         </div>
       </div>
