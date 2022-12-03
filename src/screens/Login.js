@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import '../styles/Login.scss';
 import { useNavigate, Link } from 'react-router-dom';
@@ -7,11 +7,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UserContext } from '../App';
 
 export default function Login() {
-  const { setUser } = useContext(UserContext);
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
-  const [usernameError, setUsernameError] = useState();
-  const [passwordError, setPasswordError] = useState();
+  const { user, setUser } = useContext(UserContext);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
 
@@ -31,8 +31,11 @@ export default function Login() {
       })
       .then(res => {
         if (res.data.user_id) {
-          localStorage.setItem('user_id', res.data.user_id);
-          localStorage.setItem('auth_token', res.data.auth_token);
+          localStorage.setItem('user_id', JSON.stringify(res.data.user_id));
+          localStorage.setItem(
+            'auth_token',
+            JSON.stringify(res.data.auth_token),
+          );
 
           setUser({
             id: res.data.user_id,
@@ -57,6 +60,12 @@ export default function Login() {
     setPasswordError(null);
   }
 
+  useEffect(() => {
+    if (user.logged_in) {
+      navigate('/');
+    }
+  }, []);
+
   return (
     <div className='loginContainer'>
       <div className='title'>Maverick Quest</div>
@@ -69,6 +78,7 @@ export default function Login() {
         <input
           type='text'
           className='username'
+          onClick={eraseErrors}
           value={username}
           placeholder='Username'
           maxLength={71}
@@ -88,6 +98,7 @@ export default function Login() {
           <input
             type={passwordShown ? 'text' : 'password'}
             className='password'
+            onClick={eraseErrors}
             value={password}
             placeholder='Password'
             maxLength={61}

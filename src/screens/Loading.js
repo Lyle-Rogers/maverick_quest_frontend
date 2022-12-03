@@ -4,7 +4,7 @@ import Lottie from 'react-lottie';
 import LoaderCircle from '../assets/lotties/LoaderCircle.json';
 
 export default function Loading() {
-  const [error, setError] = useState();
+  const [error, setError] = useState('');
 
   const loaderCircleOptions = {
     loop: true,

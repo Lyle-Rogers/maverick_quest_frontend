@@ -7,7 +7,7 @@ export default function Home() {
   const { user } = useContext(UserContext);
 
   return (
-    <div className='homeContainer' onClick={localStorage.clear()}>
+    <div className='homeContainer' onClick={() => localStorage.clear()}>
       Home screen
       {user?.id}
     </div>

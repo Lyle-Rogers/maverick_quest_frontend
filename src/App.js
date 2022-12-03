@@ -9,32 +9,34 @@ import Login from './screens/Login';
 import Register from './screens/Register';
 import Home from './screens/Home';
 
-export const UserContext = createContext(null);
-
 import { RequireAuth } from './components/RequireAuth';
+
+library.add(faEyeSlash, faEye);
+
+export const UserContext = createContext(null);
 
 const App = () => {
   const [user, setUser] = useState({
-    id: localStorage.getItem('user_id'),
-    auth_token: localStorage.getItem('auth_token'),
+    id: null,
+    auth_token: null,
     logged_in: false,
   });
   const navigate = useNavigate();
 
-  function automaticAuth() {
-    if (!user.id || !user.auth_token) {
+  function automaticAuth(id, auth_token) {
+    if (!id || !auth_token) {
       navigate('login');
     }
 
     axios
       .post('http://127.0.0.1:8000/api/automatic_login', {
-        auth_token: user.auth_token,
+        auth_token: auth_token,
       })
       .then(res => {
-        if (res.data === 'Token is invalid') {
+        if (res.data == 'Token is invalid') {
           navigate('login');
         } else {
-          setUser({ ...user, logged_in: true });
+          setUser({ id: id, auth_token: auth_token, logged_in: true });
           navigate('/');
         }
       })
@@ -42,8 +44,10 @@ const App = () => {
   }
 
   useEffect(() => {
-    automaticAuth();
-    library.add(faEyeSlash, faEye);
+    const id = localStorage.getItem('user_id');
+    const auth_token = localStorage.getItem('auth_token');
+
+    automaticAuth(JSON.parse(id), JSON.parse(auth_token));
   }, []);
 
   return (
@@ -58,8 +62,8 @@ const App = () => {
             </RequireAuth>
           }
         />
-        <Route exact path='/login' element={<Login />} />
-        <Route exact path='/register' element={<Register />} />
+        <Route exact path='login' element={<Login />} />
+        <Route exact path='register' element={<Register />} />
       </Routes>
     </UserContext.Provider>
   );
