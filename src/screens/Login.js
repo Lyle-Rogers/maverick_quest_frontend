@@ -2,7 +2,10 @@ import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import '../styles/Login.scss';
 import { useNavigate, Link } from 'react-router-dom';
+import Lottie from 'react-lottie';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import LoaderCircle from '../assets/lotties/LoaderCircle.json';
 
 import { UserContext } from '../App';
 
@@ -13,16 +16,33 @@ export default function Login() {
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const loaderCircleOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: LoaderCircle,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
 
   function login() {
     eraseErrors();
 
     if (!username || !password) {
-      setUsernameError('A field is blank');
-      setPasswordError('A field is blank');
+      if (!username) {
+        setUsernameError('The username is blank');
+      }
+
+      if (!password) {
+        setPasswordError('The password is blank');
+      }
+
       return;
     }
+
+    setLoading(true);
 
     axios
       .post('http://127.0.0.1:8000/api/login', {
@@ -46,8 +66,10 @@ export default function Login() {
           navigate('/');
         } else if (res.data === 'Invalid username') {
           setUsernameError('The username is invalid');
+          setLoading(false);
         } else if (res.data === 'Invalid password') {
           setPasswordError('The password is invalid');
+          setLoading(false);
         }
       })
       .catch(e => {
@@ -70,9 +92,7 @@ export default function Login() {
     <div className='loginContainer'>
       <div className='title'>Maverick Quest</div>
       <div className='usernameContainer'>
-        <div
-          className='usernameTitle'
-          style={{ display: username ? null : 'none' }}>
+        <div className='usernameTitle' style={{ display: !username && 'none' }}>
           username
         </div>
         <input
@@ -84,14 +104,10 @@ export default function Login() {
           maxLength={71}
           onChange={e => setUsername(e.target.value)}
         />
-        {usernameError ? (
-          <div className='usernameError'>{usernameError}</div>
-        ) : null}
+        {usernameError && <div className='usernameError'>{usernameError}</div>}
       </div>
       <div className='passwordContainer'>
-        <div
-          className='passwordTitle'
-          style={{ display: password ? null : 'none' }}>
+        <div className='passwordTitle' style={{ display: !password && 'none' }}>
           password
         </div>
         <div className='passwordInput'>
@@ -114,14 +130,22 @@ export default function Login() {
             )}
           </div>
         </div>
-        {passwordError ? (
-          <div className='passwordError'>{passwordError}</div>
-        ) : null}
+        {passwordError && <div className='passwordError'>{passwordError}</div>}
       </div>
       <div className='authenticationBtns'>
         <Link to={'/register'} className='signUpBtn'>
           Sign up
         </Link>
+        {loading && (
+          <div className='loaderCircle'>
+            <Lottie
+              options={loaderCircleOptions}
+              height={61}
+              width={61}
+              isClickToPauseDisabled={true}
+            />
+          </div>
+        )}
         <div className='loginBtn' onClick={login}>
           Login
         </div>

@@ -110,6 +110,7 @@
   }
 
   .authenticationBtns {
+    position: relative;
     display: flex;
     justify-content: space-around;
     width: 81vw;
@@ -120,6 +121,11 @@
       font-weight: 700;
       color: black;
       text-decoration: none;
+    }
+
+    .loaderCircle {
+      position: absolute;
+      top: -12px;
     }
 
     .loginBtn {
