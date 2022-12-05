@@ -3,15 +3,22 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './styles/App.scss';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEyeSlash,
+  faEye,
+  faBars,
+  faGear,
+} from '@fortawesome/free-solid-svg-icons';
 
+import Home from './screens/Home';
 import Login from './screens/Login';
 import Register from './screens/Register';
-import Home from './screens/Home';
+import JobScope from './screens/JobScope';
+import Settings from './screens/Settings';
 
 import { RequireAuth } from './components/RequireAuth';
 
-library.add(faEyeSlash, faEye);
+library.add(faEyeSlash, faEye, faBars, faGear);
 
 export const UserContext = createContext(null);
 
@@ -64,6 +71,24 @@ const App = () => {
         />
         <Route exact path='login' element={<Login />} />
         <Route exact path='register' element={<Register />} />
+        <Route
+          exact
+          path='job_scope'
+          element={
+            <RequireAuth>
+              <JobScope />
+            </RequireAuth>
+          }
+        />
+        <Route
+          exact
+          path='settings'
+          element={
+            <RequireAuth>
+              <Settings />
+            </RequireAuth>
+          }
+        />
       </Routes>
     </UserContext.Provider>
   );

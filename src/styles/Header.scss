@@ -1,0 +1,25 @@
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #292e4a;
+  height: 3.7em;
+
+  .sidebarBtn {
+    margin-left: 11px;
+    font-size: 27px;
+    color: #000000;
+  }
+
+  .title {
+    font-size: 27px;
+    color: #000000;
+    font-weight: 700;
+  }
+
+  .settingsBtn {
+    margin-right: 11px;
+    font-size: 27px;
+    color: #000000;
+  }
+}
