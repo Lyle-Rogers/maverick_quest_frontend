@@ -1,0 +1,17 @@
+.jobScopeContainer {
+  // min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  place-content: center;
+  display: grid;
+  // background: linear-gradient(rgb(96, 29, 222), rgb(44, 9, 142));
+  background: linear-gradient(rgb(96, 29, 222), rgb(12, 0, 43));
+
+  .video {
+    // width: 700px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    display: block;
+    margin: 0 auto;
+  }
+}
